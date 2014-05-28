@@ -10,12 +10,11 @@
     </div>
     <div class="row" id="content-section">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#list-section" data-toggle="tab">List of Data</a></li>
-            <li><a href="#detail-section" data-toggle="tab">Selected Item's Detail</a></li>
+            <li class="active"><a href="#list-section" data-toggle="tab"><span class="glyphicon glyphicon-th-list"></span> List of Data</a></li>
+            <li><a href="#detail-section" data-toggle="tab"><span class="glyphicon glyphicon-list-alt"></span> Selected Item's Detail</a></li>
         </ul>
         <div class="tab-content">
-            <div id="list-section" class="tab-pane active col-md-12">
-                %{--new App.view.TableRegion( el: '#list-section', key: 'Asset' )--}%
+            <div id="list-section" class="tab-pane active col-md-12"> %{--App.view.TableRegion--}%
                 <div class="row buttons" style="margin-top: 10px">
                     <div class="col-md-4 col-centered">
                         <bt:create/>
@@ -24,7 +23,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <dt:table key='Asset'/>
+                    <dt:table key='Asset'/>%{-- App.view.Table--}%
                 </div>
             </div>
             <div id="detail-section" class="tab-pane col-md-12">

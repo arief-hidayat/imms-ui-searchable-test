@@ -10,6 +10,9 @@ App.dt.config.table = {
     Asset : {
         columns : [ { "data": "code" }, { "data": "name" }, { "data": "assetType" }, { "data": "status" }, { "data": "locationCd" }]
 //        , order : [[1, 'asc']]
+    },
+    AssetType : {
+        columns : [ { "data": "type" }, { "data": "note" }]
     }
 };
 
