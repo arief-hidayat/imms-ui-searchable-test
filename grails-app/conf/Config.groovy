@@ -148,4 +148,8 @@ imms {
                 AssetType : ["type", "note"]
         ]
     }
+
+    scaffolding {
+
+    }
 }

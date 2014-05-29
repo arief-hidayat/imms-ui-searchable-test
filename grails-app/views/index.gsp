@@ -41,6 +41,7 @@
         </div>
     </div>
     <script type="text/javascript" charset="utf-8">
+        App.url = "${request.contextPath}";
         $(document).ready(function() {
             new App.view.TableRegion( {el: '#list-section', key: 'Asset'} );
         } );

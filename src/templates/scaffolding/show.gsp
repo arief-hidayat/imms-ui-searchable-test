@@ -75,8 +75,8 @@
     var initMainTable = false;
     App.url = "\${request.contextPath}";
     jQuery(document).ready(function() {
-        jQuery("#content-section > .nav-tabs li:eq(2) a").tab('show');
-        jQuery("#content-section > .nav-tabs li:first a").click(function(){
+        jQuery("#content-section > .nav-tabs li:eq(1) a").tab('show');
+        jQuery("#content-section > .nav-tabs li:eq(0) a").click(function(){
             if(!initMainTable) {
                 new App.view.TableRegion( {el: '#list-section', key: '${className}'} );
                 initMainTable = true;

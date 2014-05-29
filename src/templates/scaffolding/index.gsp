@@ -39,7 +39,7 @@
                 </g:hasErrors>
             </div>
             <div class="row">
-                <g:form url="[resource:${propertyName}, action:'save']" <%= multiPart ? ' enctype="multipart/form-data"' : '' %>>
+                <g:form id="${className}-create-form" url="[resource:${propertyName}, action:'save']" <%= multiPart ? ' enctype="multipart/form-data"' : '' %>>
                 <fieldset class="form">
                     <g:render template="form"/>
                 </fieldset>
@@ -53,8 +53,13 @@
 </div>
 <script type="text/javascript" charset="utf-8">
     App.url = "\${request.contextPath}";
+    var initForm = false;
     jQuery(document).ready(function() {
         new App.view.TableRegion( {el: '#list-section', key: '${className}'} );
+        jQuery("#content-section > .nav-tabs li:eq(1) a").click(function(){
+            new App.view.EditableForm({ el : '#${className}-create-form'});
+            initForm = true;
+        });
     } );
 </script>
 </body>

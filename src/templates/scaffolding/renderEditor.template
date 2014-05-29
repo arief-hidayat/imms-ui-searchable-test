@@ -55,14 +55,14 @@
         } else {
 			def sb = new StringBuilder("")
             if ("textarea" == cp.widget || (cp.maxSize > 250 && !cp.password && !cp.inList)) {
-                sb << '<g:textArea name="' << property.name << '"'
+                sb << '<g:textArea class="form-control" name="' << property.name << '"'
  				sb << ' cols="40" rows="5"'
 				if (cp.maxSize) sb << ' maxlength="' << cp.maxSize << '"'
 				if (isRequired()) sb << ' required=""'
  				sb << ' value="${' << "${domainInstance}?.${property.name}" << '}"'
 				sb << '/>'
             } else if (cp.inList) {
-				sb << '<g:select name="' << property.name << '"'
+				sb << '<g:select class="form-control" name="' << property.name << '"'
 				sb << ' from="${' << "${domainInstance}.constraints.${property.name}.inList" << '}"'
 				if (isRequired()) sb << ' required=""'
 				sb << ' value="${' << "${domainInstance}?.${property.name}" << '}"'
@@ -217,20 +217,20 @@
             }
         }
     }
-
+// <bs:datePicker id='optional' field="plannedStartDate" shouldBeAfter="requestDate" shouldBeBefore="plannedEndDate,actualEndDate" hasError="${}" default="${LocalDate.now()}" value="${assetInstance?.plannedStartDate}"/>
 	private renderJodaDateTimeEditor(domainClass,property) {
 		if (!cp) {
-			return "<joda:dateTimePicker name=\"${property.name}\" value=\"\${${domainInstance}?.${property.name}}\"></joda:dateTimePicker>"
+			return "<bs:dateTimePicker id=\"${domainInstance}-${property.name}\" field=\"${property.name}\" value=\"\${${domainInstance}?.${property.name}}\"></bs:dateTimePicker>"
 		} else {
 			if(!cp.editable) {
 				return "\${${domainInstance}?.${property.name}?.toString()}"
 			} else {
-				def buf = new StringBuffer('<joda:dateTimePicker ')
+				def buf = new StringBuffer('<bs:dateTimePicker ')
 				if (cp.format) buf << "format=\"${cp.format}\" "
 				cp.attributes.each { k,v ->
 					buf << "${k}=\"${v}\" "
 				}
-				buf << "name=\"${property.name}\" value=\"\${${domainInstance}?.${property.name}}\" ${renderNoSelection(property)}></joda:dateTimePicker>"
+				buf << "id=\"${domainInstance}-${property.name}\" field=\"${property.name}\" value=\"\${${domainInstance}?.${property.name}}\" ${renderNoSelection(property)}></bs:dateTimePicker>"
 				return buf.toString()
 			}
 		}
@@ -238,17 +238,17 @@
 
 	private renderJodaDateEditor(domainClass,property) {
 		if (!cp) {
-			return "<joda:datePicker name=\"${property.name}\" value=\"\${${domainInstance}?.${property.name}}\"></joda:datePicker>"
+			return "<bs:datePicker id=\"${domainInstance}-${property.name}\" field=\"${property.name}\" value=\"\${${domainInstance}?.${property.name}}\"></bs:datePicker>"
 		} else {
 			if (!cp.editable) {
 				return "\${${domainInstance}?.${property.name}?.toString()}"
 			} else {
-				def buf = new StringBuffer('<joda:datePicker ')
+				def buf = new StringBuffer('<bs:datePicker ')
 				if (cp.format) buf << "format=\"${cp.format}\" "
 				cp.attributes.each { k,v ->
 					buf << "${k}=\"${v}\" "
 				}
-				buf << "name=\"${property.name}\" value=\"\${${domainInstance}?.${property.name}}\" ${renderNoSelection(property)}></joda:datePicker>"
+				buf << "id=\"${domainInstance}-${property.name}\" field=\"${property.name}\" value=\"\${${domainInstance}?.${property.name}}\" ${renderNoSelection(property)}></bs:datePicker>"
 				return buf.toString()
 			}
 		}
@@ -256,17 +256,17 @@
 
 	private renderJodaTimeEditor(domainClass,property) {
 		if (!cp) {
-			return "<joda:timePicker name=\"${property.name}\" value=\"\${${domainInstance}?.${property.name}}\"></joda:timePicker>"
+			return "<bs:timePicker id=\"${domainInstance}-${property.name}\" field=\"${property.name}\" value=\"\${${domainInstance}?.${property.name}}\"></bs:timePicker>"
 		} else {
 			if (!cp.editable) {
 				return "\${${domainInstance}?.${property.name}?.toString()}"
 			} else {
-				def buf = new StringBuffer('<joda:timePicker ')
+				def buf = new StringBuffer('<bs:timePicker ')
 				if (cp.format) buf << "format=\"${cp.format}\" "
 				cp.attributes.each { k,v ->
 					buf << "${k}=\"${v}\" "
 				}
-				buf << "name=\"${property.name}\" value=\"\${${domainInstance}?.${property.name}}\" ${renderNoSelection(property)}></joda:timePicker>"
+				buf << "id=\"${domainInstance}-${property.name}\" field=\"${property.name}\" value=\"\${${domainInstance}?.${property.name}}\" ${renderNoSelection(property)}></bs:timePicker>"
 				return buf.toString()
 			}
 		}
@@ -274,17 +274,17 @@
 
 	private renderJodaPeriodEditor(domainClass,property) {
 		if (!cp) {
-			return "<joda:periodPicker name=\"${property.name}\" value=\"\${${domainInstance}?.${property.name}}\"></joda:periodPicker>"
+			return "<bs:periodPicker id=\"${domainInstance}-${property.name}\" field=\"${property.name}\" value=\"\${${domainInstance}?.${property.name}}\"></bs:periodPicker>"
 		} else {
 			if (!cp.editable) {
 				return "\${${domainInstance}?.${property.name}?.toString()}"
 			} else {
-				def buf = new StringBuffer('<joda:periodPicker ')
+				def buf = new StringBuffer('<bs:periodPicker ')
 				if (cp.format) buf << "format=\"${cp.format}\" "
 				cp.attributes.each { k,v ->
 					buf << "${k}=\"${v}\" "
 				}
-				buf << "name=\"${property.name}\" value=\"\${${domainInstance}?.${property.name}}\" ${renderNoSelection(property)}></joda:periodPicker>"
+				buf << "id=\"${domainInstance}-${property.name}\" field=\"${property.name}\" value=\"\${${domainInstance}?.${property.name}}\" ${renderNoSelection(property)}></bs:periodPicker>"
 				return buf.toString()
 			}
 		}
