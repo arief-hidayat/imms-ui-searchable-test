@@ -49,7 +49,20 @@
 		sb as String
     }
 
+
+    private boolean fieldHasBeenPopulatedFromTypeAhead(String field) {
+        def populatedFieldsConf = grails.util.Holders.config.imms?.typeahead?.populatedFields?."${domainInstance}" ?: [:]
+        for(java.util.Map map : populatedFieldsConf.values()) {
+            if(!map) continue
+            for(String parentField : map.keySet()) {
+                if(parentField == field) return true
+            }
+        }
+        false
+    }
+
     private renderStringEditor(domainClass, property) {
+
         if (!cp) {
             return "<g:textField name=\"${property.name}\" value=\"\${${domainInstance}?.${property.name}}\" />"
         } else {

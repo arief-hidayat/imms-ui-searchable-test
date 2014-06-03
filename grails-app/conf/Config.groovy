@@ -149,7 +149,23 @@ imms {
         ]
     }
 
-    scaffolding {
 
+    typeahead {
+        displayKey =  [
+                AssetType : "type",
+                AssetGroup: "groupName"
+        ]
+        populatedFields {
+            assetInstance = [
+                    assetType : [ // field name.
+                        assetType : 'type' // if the same as (field name - display key) and only 1, actually no need to put in.
+                    ],
+//                    assetType : [ : ], // just to make sure that scaffolding generate this.
+                    assetGroup : [ : ]
+            ]
+        }
+    }
+
+    scaffolding {
     }
 }
