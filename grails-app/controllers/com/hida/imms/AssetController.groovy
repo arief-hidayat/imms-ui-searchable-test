@@ -1,5 +1,7 @@
 package com.hida.imms
 
+import grails.converters.JSON
+import org.springframework.http.HttpStatus
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -16,6 +18,42 @@ class AssetController {
 
     def show(Asset assetInstance) {
         respond assetInstance
+    }
+
+    def createForm() {
+        println "inside create form"
+        render(model: [assetInstance: new Asset(params)], view: "_partialCreate")
+    }
+    def editForm(Asset assetInstance) {
+        render(model: [assetInstance: assetInstance], view: "_partialEdit")
+    }
+    def showForm(Asset assetInstance) {
+        render(model: [assetInstance: assetInstance], view: "_partialShow") //
+    }
+
+    def deleteJSON() {
+        Asset assetInstance = Asset.get(params.id)
+        println "inside deleteJSON. assetInstance; ${assetInstance}"
+        if(assetInstance == null) {
+            renderJsonMessage(message(code: 'default.not.found.message', args: [message(code: 'asset.label', default: 'Asset'), params.id]), params, NOT_FOUND)
+            println "item not found"
+            return
+        }
+        try {
+            assetInstance.delete flush: true
+            renderJsonMessage(message(code: 'default.deleted.message', args: [message(code: 'asset.label', default: 'Asset'), assetInstance.id]), params, OK)
+            println "deleted successfully"
+        } catch(Exception e) {
+            log.error("Failed to delete Asset. params ${params}", e)
+            renderJsonMessage(message(code: 'default.not.deleted.message', args: [message(code: 'asset.label', default: 'Asset'), assetInstance.id]), params, INTERNAL_SERVER_ERROR)
+            println "item couldn't be deleted"
+        }
+    }
+
+    private def renderJsonMessage(String msg, def params, HttpStatus status) {
+        render(status: status, contentType: "application/json;  charset=utf-8") {
+            [message : msg, params : params]
+        }
     }
 
     def create() {
@@ -71,6 +109,7 @@ class AssetController {
             '*' { respond assetInstance, [status: OK] }
         }
     }
+
 
     @Transactional
     def delete(Asset assetInstance) {

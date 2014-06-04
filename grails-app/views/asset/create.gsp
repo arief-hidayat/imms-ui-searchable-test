@@ -33,31 +33,7 @@
         </div>
 
         <div id="detail-section" class="tab-pane active col-md-12">
-            <div class="row">
-                <g:if test="${flash.message}">
-                    <div class="message" role="status">${flash.message}</div>
-                </g:if>
-                <g:hasErrors bean="${assetInstance}">
-                    <ul class="errors" role="alert">
-                        <g:eachError bean="${assetInstance}" var="error">
-                            <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message
-                                    error="${error}"/></li>
-                        </g:eachError>
-                    </ul>
-                </g:hasErrors>
-            </div>
-
-            <div class="row">
-                <g:form id="Asset-create-form" url="[resource: assetInstance, action: 'save']">
-                    <fieldset class="form">
-                        <g:render template="form"/>
-                    </fieldset>
-                    <fieldset class="buttons">
-                        <g:submitButton name="create" class="btn btn-success"
-                                        value="${message(code: 'default.button.create.label', default: 'Create')}"/>
-                    </fieldset>
-                </g:form>
-            </div>
+            <g:render template="partialCreate"/>
         </div>
     </div>
 </div>

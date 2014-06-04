@@ -63,13 +63,14 @@
 </div>
 <script type="text/javascript" charset="utf-8">
     App.url = "${request.contextPath}";
-    var initForm = false;
+//    var initForm = false;
     jQuery(document).ready(function () {
-        new App.view.TableRegion({el: '#list-section', key: 'Asset'});
-        jQuery("#content-section > .nav-tabs li:eq(1) a").click(function () {
-            new App.view.EditableForm({ el: '#Asset-create-form'});
-            initForm = true;
-        });
+        new App.view.TableFormTabs({ key : "Asset"});
+//        new App.view.TableRegion({el: '#list-section', key: 'Asset'});
+//        jQuery("#content-section > .nav-tabs li:eq(1) a").click(function () {
+//            new App.view.EditableForm({ el: '#Asset-create-form'});
+//            initForm = true;
+//        });
     });
 </script>
 </body>
