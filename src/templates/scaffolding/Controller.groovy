@@ -1,5 +1,8 @@
 <%=packageName ? "package ${packageName}\n\n" : ''%>
 
+
+import org.springframework.http.HttpStatus
+
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
@@ -7,6 +10,41 @@ import grails.transaction.Transactional
 class ${className}Controller {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+
+    def createForm() {
+        println "inside create form"
+        render(model: [${propertyName}: new ${className}(params)], view: "_partialCreate")
+    }
+    def editForm(${className} ${propertyName}) {
+        render(model: [${propertyName}: ${propertyName}], view: "_partialEdit")
+    }
+    def showForm(${className} ${propertyName}) {
+        render(model: [${propertyName}: ${propertyName}], view: "_partialShow") //
+    }
+
+    def deleteJSON() {
+        ${className} ${propertyName} = ${className}.get(params.id)
+        if(${propertyName} == null) {
+            renderJsonMessage(message(code: 'default.not.found.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), params.id]), params, NOT_FOUND)
+            println "item not found"
+            return
+        }
+        try {
+            ${propertyName}.delete flush: true
+            renderJsonMessage(message(code: 'default.deleted.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), ${propertyName}.id]), params, OK)
+            println "deleted successfully"
+        } catch(Exception e) {
+            log.error("Failed to delete ${className}. params \${params}", e)
+            renderJsonMessage(message(code: 'default.not.deleted.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), ${propertyName}.id]), params, INTERNAL_SERVER_ERROR)
+            println "item couldn't be deleted"
+        }
+    }
+
+    private def renderJsonMessage(String msg, def parameter, HttpStatus status) {
+        render(status: status, contentType: "application/json;  charset=utf-8") {
+            [message : msg, params : parameter]
+        }
+    }
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)

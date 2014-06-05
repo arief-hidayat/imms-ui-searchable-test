@@ -33,62 +33,14 @@
         </div>
 
         <div id="detail-section" class="tab-pane active col-md-12">
-            <div class="row">
-                <g:if test="${flash.message}">
-                    <div class="message" role="status">${flash.message}</div>
-                </g:if>
-            </div>
-
-            <div class="row">
-                <ul class="property-list assetType">
-
-                    <g:if test="${assetTypeInstance?.type}">
-                        <li class="fieldcontain">
-                            <span id="type-label" class="property-label"><g:message code="assetType.type.label"
-                                                                                    default="Type"/></span>
-
-                            <span class="property-value" aria-labelledby="type-label"><g:fieldValue
-                                    bean="${assetTypeInstance}" field="type"/></span>
-
-                        </li>
-                    </g:if>
-
-                    <g:if test="${assetTypeInstance?.note}">
-                        <li class="fieldcontain">
-                            <span id="note-label" class="property-label"><g:message code="assetType.note.label"
-                                                                                    default="Note"/></span>
-
-                            <span class="property-value" aria-labelledby="note-label"><g:fieldValue
-                                    bean="${assetTypeInstance}" field="note"/></span>
-
-                        </li>
-                    </g:if>
-
-                </ul>
-                <g:form url="[resource: assetTypeInstance, action: 'delete']" method="DELETE">
-                    <fieldset class="buttons">
-                        <g:actionSubmit class="btn btn-info" action="edit"
-                                        value="${message(code: 'default.button.edit.label', default: 'Edit')}"/>
-                        <g:actionSubmit class="btn btn-danger" action="delete"
-                                        value="${message(code: 'default.button.delete.label', default: 'Delete')}"
-                                        onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');"/>
-                    </fieldset>
-                </g:form>
-            </div>
+            <g:render template="partialShow"/>
         </div>
     </div>
 </div>
 <script type="text/javascript" charset="utf-8">
-    var initMainTable = false;
     App.url = "${request.contextPath}";
     jQuery(document).ready(function () {
-        jQuery("#content-section > .nav-tabs li:eq(2) a").tab('show');
-        jQuery("#content-section > .nav-tabs li:first a").click(function () {
-            if (!initMainTable) {
-                new App.view.TableRegion({el: '#list-section', key: 'AssetType'});
-                initMainTable = true;
-            }
-        });
+        new App.view.TableFormTabs({key: 'AssetType', initialForm: { action: 'show', id: "${assetTypeInstance?.id ?: ''}"} });
     });
 </script>
 </body>

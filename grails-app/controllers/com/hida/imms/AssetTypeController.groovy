@@ -1,6 +1,6 @@
 package com.hida.imms
 
-
+import org.springframework.http.HttpStatus
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -9,6 +9,41 @@ import grails.transaction.Transactional
 class AssetTypeController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+
+    def createForm() {
+        println "inside create form"
+        render(model: [assetTypeInstance: new AssetType(params)], view: "_partialCreate")
+    }
+    def editForm(AssetType assetTypeInstance) {
+        render(model: [assetTypeInstance: assetTypeInstance], view: "_partialEdit")
+    }
+    def showForm(AssetType assetTypeInstance) {
+        render(model: [assetTypeInstance: assetTypeInstance], view: "_partialShow") //
+    }
+
+    def deleteJSON() {
+        AssetType assetTypeInstance = AssetType.get(params.id)
+        if(assetTypeInstance == null) {
+            renderJsonMessage(message(code: 'default.not.found.message', args: [message(code: 'assetType.label', default: 'AssetType'), params.id]), params, NOT_FOUND)
+            println "item not found"
+            return
+        }
+        try {
+            assetTypeInstance.delete flush: true
+            renderJsonMessage(message(code: 'default.deleted.message', args: [message(code: 'assetType.label', default: 'AssetType'), assetTypeInstance.id]), params, OK)
+            println "deleted successfully"
+        } catch(Exception e) {
+            log.error("Failed to delete AssetType. params ${params}", e)
+            renderJsonMessage(message(code: 'default.not.deleted.message', args: [message(code: 'assetType.label', default: 'AssetType'), assetTypeInstance.id]), params, INTERNAL_SERVER_ERROR)
+            println "item couldn't be deleted"
+        }
+    }
+
+    private def renderJsonMessage(String msg, def parameter, HttpStatus status) {
+        render(status: status, contentType: "application/json;  charset=utf-8") {
+            [message : msg, params : parameter]
+        }
+    }
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)

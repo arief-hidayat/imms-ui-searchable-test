@@ -48,7 +48,7 @@
             </div>
 
             <div class="row">
-                <g:form url="[resource: assetTypeInstance, action: 'save']">
+                <g:form id="AssetType-create-form" url="[resource: assetTypeInstance, action: 'save']">
                     <fieldset class="form">
                         <g:render template="form"/>
                     </fieldset>
@@ -64,7 +64,7 @@
 <script type="text/javascript" charset="utf-8">
     App.url = "${request.contextPath}";
     jQuery(document).ready(function () {
-        new App.view.TableRegion({el: '#list-section', key: 'AssetType'});
+        new App.view.TableFormTabs({ key: "AssetType"});
     });
 </script>
 </body>
