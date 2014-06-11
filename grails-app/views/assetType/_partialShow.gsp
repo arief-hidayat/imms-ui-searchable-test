@@ -9,13 +9,12 @@
         <g:hiddenField name="version" value="${assetTypeInstance?.version}"/>
         <g:hiddenField name="id" value="${assetTypeInstance?.id}"/>
         <fieldset class="form">
-            <g:render template="form" model="['show' : true]"/>
+            <g:render template="form" model="['show': true]"/>
         </fieldset>
         <fieldset class="buttons">
             <fieldset class="buttons">
                 <g:actionSubmit class="btn btn-info" action="edit"
                                 value="${message(code: 'default.button.edit.label', default: 'Edit')}"/>
-                %{--<input type="submit" name="_action_edit" value="Edit" class="btn btn-info">--}%
                 <g:actionSubmit class="btn btn-danger" action="delete"
                                 value="${message(code: 'default.button.delete.label', default: 'Delete')}"
                                 onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');"/>
