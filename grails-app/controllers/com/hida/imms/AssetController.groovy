@@ -31,6 +31,12 @@ class AssetController {
         render(model: [assetInstance: assetInstance], view: "_partialShow") //
     }
 
+    def saveJSON() {
+        if(params.id) {
+
+        }
+    }
+
     def deleteJSON() {
         Asset assetInstance = Asset.get(params.id)
         println "inside deleteJSON. assetInstance; ${assetInstance}"

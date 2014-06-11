@@ -1,6 +1,7 @@
 <div class="row">
     <g:render template="message"/>
 </div>
+
 <div class="row">
     <g:form id="Asset-edit-form" url="[resource: assetInstance, action: 'update']" method="PUT">
         <g:hiddenField name="version" value="${assetInstance?.version}"/>

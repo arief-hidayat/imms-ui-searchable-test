@@ -1,6 +1,7 @@
 <div class="row">
     <g:render template="message"/>
 </div>
+
 <div class="row">
     <g:form id="Asset-create-form" url="[resource: assetInstance, action: 'save']">
         <fieldset class="form">

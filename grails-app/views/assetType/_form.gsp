@@ -7,7 +7,7 @@
         <g:message code="assetType.type.label" default="Type"/>
         <span class="required-indicator">*</span>
     </label>
-    <g:textField class="form-control" name="type" maxlength="30" required="" value="${assetTypeInstance?.type}"/>
+    <g:textField class="form-control" name="type" maxlength="30" required="" value="${assetTypeInstance?.type}"  readonly="${show ?: false}"/>
 </div>
 
 <div class="form-group ${hasErrors(bean: assetTypeInstance, field: 'note', 'has-error')} ">
@@ -15,6 +15,6 @@
         <g:message code="assetType.note.label" default="Note"/>
 
     </label>
-    <g:textField class="form-control" name="note" maxlength="76" value="${assetTypeInstance?.note}"/>
+    <g:textField class="form-control" name="note" maxlength="76" value="${assetTypeInstance?.note}" />
 </div>
 

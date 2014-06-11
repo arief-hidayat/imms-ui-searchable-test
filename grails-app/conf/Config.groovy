@@ -134,6 +134,9 @@ jodatime.format.html5 = true
 jodatime.format.org.joda.time.LocalDate="yyyy-MM-dd"
 jodatime.format.org.joda.time.LocalDateTime="yyyy-MM-dd HH:mm"
 
+// make sure joda time plugin's date converter is used.
+grails.databinding.useSpringBinder = true
+
 
 imms {
     datatable {
@@ -157,8 +160,9 @@ imms {
         ]
         populatedFields {
             assetInstance = [
-                    assetType : [ // field name.
-                        assetType : 'type' // if the same as (field name - display key) and only 1, actually no need to put in.
+                    assetType : [
+                        // field name.
+                        assetType : 'type' // If the same as (field name - display key) and only 1, actually no need to put in.
                     ],
 //                    assetType : [ : ], // just to make sure that scaffolding generate this.
                     assetGroup : [ : ]

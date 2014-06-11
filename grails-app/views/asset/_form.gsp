@@ -7,34 +7,34 @@
                 <g:message code="asset.code.label" default="Code"/>
                 <span class="required-indicator">*</span>
             </label>
-            <g:textField class="form-control" name="code" maxlength="50" required="" value="${assetInstance?.code}"/>
+            <g:textField class="form-control" name="code" maxlength="50" required="" value="${assetInstance?.code}" readonly="${show ?: false}"/>
         </div>
         <div class="form-group ${hasErrors(bean: assetInstance, field: 'name', 'has-error')} required">
             <label for="name">
                 <g:message code="asset.name.label" default="Name"/>
                 <span class="required-indicator">*</span>
             </label>
-            <g:textField class="form-control" name="name" maxlength="150" required="" value="${assetInstance?.name}"/>
+            <g:textField class="form-control" name="name" maxlength="150" required="" value="${assetInstance?.name}" readonly="${show ?: false}"/>
         </div>
         <div class="form-group ${hasErrors(bean: assetInstance, field: 'assetType', 'has-error')} required">
             <label for="assetType">
                 <g:message code="asset.assetType.label" default="Asset Type"/>
                 <span class="required-indicator">*</span>
             </label>
-            <bs:typeAhead id="assetType" parentInstance="assetInstance" field="assetType" domain="AssetType" items="all" minLength="1"  value="${assetInstance?.assetType}"/>
+            <bs:typeAhead id="assetType" parentInstance="assetInstance" field="assetType" domain="AssetType" items="all" minLength="1"  value="${assetInstance?.assetType}" readonly="${show ?: false}"/>
         </div>
         <div class="form-group ${hasErrors(bean: assetInstance, field: 'assetGroup', 'has-error')} ">
             <label for="assetGroup">
                 <g:message code="asset.assetGroup.label" default="Asset Group"/>
             </label>
-            <bs:typeAhead id="assetGroup" parentInstance="assetInstance" field="assetGroup" domain="AssetGroup" items="all" minLength="1"  value="${assetInstance?.assetGroup}"/>
+            <bs:typeAhead id="assetGroup" parentInstance="assetInstance" field="assetGroup" domain="AssetGroup" items="all" minLength="1"  value="${assetInstance?.assetGroup}" readonly="${show ?: false}"/>
         </div>
         <div class="form-group ${hasErrors(bean: assetInstance, field: 'modelNo', 'has-error')} required">
             <label for="modelNo">
                 <g:message code="asset.modelNo.label" default="Model No"/>
                 <span class="required-indicator">*</span>
             </label>
-            <g:textField class="form-control" name="modelNo" value="${assetInstance?.modelNo}"/>
+            <g:textField class="form-control" name="modelNo" value="${assetInstance?.modelNo}" readonly="${show ?: false}"/>
         </div>
 
         <div class="form-group ${hasErrors(bean: assetInstance, field: 'serialNo', 'has-error')} required">
@@ -42,7 +42,7 @@
                 <g:message code="asset.serialNo.label" default="Serial No"/>
                 <span class="required-indicator">*</span>
             </label>
-            <g:textField class="form-control" name="serialNo" value="${assetInstance?.serialNo}"/>
+            <g:textField class="form-control" name="serialNo" value="${assetInstance?.serialNo}" readonly="${show ?: false}"/>
         </div>
 
         <div class="form-group ${hasErrors(bean: assetInstance, field: 'manufacturer', 'has-error')} required">
@@ -50,7 +50,7 @@
                 <g:message code="asset.manufacturer.label" default="Manufacturer"/>
                 <span class="required-indicator">*</span>
             </label>
-            <g:textField class="form-control" name="manufacturer" value="${assetInstance?.manufacturer}"/>
+            <g:textField class="form-control" name="manufacturer" value="${assetInstance?.manufacturer}" readonly="${show ?: false}"/>
         </div>
     </div>
     <div class="col-md-4">
@@ -60,14 +60,14 @@
                 <span class="required-indicator">*</span>
             </label>
             <bs:datePicker id="assetInstance-purchaseDate" field="purchaseDate"
-                           value="${assetInstance?.purchaseDate}"></bs:datePicker>
+                           value="${assetInstance?.purchaseDate}"  readonly="${show ?: false}"></bs:datePicker>
         </div>
         <div class="form-group ${hasErrors(bean: assetInstance, field: 'vendorCd', 'has-error')} required">
             <label for="vendorCd">
                 <g:message code="asset.vendorCd.label" default="Vendor Cd"/>
                 <span class="required-indicator">*</span>
             </label>
-            <g:textField class="form-control" name="vendorCd" value="${assetInstance?.vendorCd}"/>
+            <g:textField class="form-control" name="vendorCd" value="${assetInstance?.vendorCd}" readonly="${show ?: false}"/>
         </div>
 
         <div class="form-group ${hasErrors(bean: assetInstance, field: 'baseDate', 'has-error')} required">
@@ -75,7 +75,7 @@
                 <g:message code="asset.baseDate.label" default="Base Date"/>
                 <span class="required-indicator">*</span>
             </label>
-            <bs:datePicker id="assetInstance-baseDate" field="baseDate" value="${assetInstance?.baseDate}"></bs:datePicker>
+            <bs:datePicker id="assetInstance-baseDate" field="baseDate" value="${assetInstance?.baseDate}" readonly="${show ?: false}"></bs:datePicker>
         </div>
         <div class="form-group ${hasErrors(bean: assetInstance, field: 'warrantyStartDate', 'has-error')} required">
             <label for="warrantyStartDate">
@@ -83,7 +83,7 @@
                 <span class="required-indicator">*</span>
             </label>
             <bs:datePicker id="assetInstance-warrantyStartDate" field="warrantyStartDate"
-                           value="${assetInstance?.warrantyStartDate}"></bs:datePicker>
+                           value="${assetInstance?.warrantyStartDate}" readonly="${show ?: false}"></bs:datePicker>
         </div>
         <div class="form-group ${hasErrors(bean: assetInstance, field: 'warrantyEndDate', 'has-error')} required">
             <label for="warrantyEndDate">
@@ -91,7 +91,7 @@
                 <span class="required-indicator">*</span>
             </label>
             <bs:datePicker id="assetInstance-warrantyEndDate" field="warrantyEndDate"
-                           value="${assetInstance?.warrantyEndDate}"></bs:datePicker>
+                           value="${assetInstance?.warrantyEndDate}" readonly="${show ?: false}"></bs:datePicker>
         </div>
 
         <div class="form-group ${hasErrors(bean: assetInstance, field: 'depreciationInterval', 'has-error')} required">
@@ -99,7 +99,7 @@
                 <g:message code="asset.depreciationInterval.label" default="Depreciation Interval"/>
                 <span class="required-indicator">*</span>
             </label>
-            <g:textField class="form-control" name="depreciationInterval" value="${assetInstance?.depreciationInterval}"/>
+            <g:textField class="form-control" name="depreciationInterval" value="${assetInstance?.depreciationInterval}" readonly="${show ?: false}"/>
         </div>
 
         <div class="form-group ${hasErrors(bean: assetInstance, field: 'depreciationType', 'has-error')} required">
@@ -107,22 +107,22 @@
                 <g:message code="asset.depreciationType.label" default="Depreciation Type"/>
                 <span class="required-indicator">*</span>
             </label>
-            <g:textField class="form-control" name="depreciationType" value="${assetInstance?.depreciationType}"/>
+            <g:textField class="form-control" name="depreciationType" value="${assetInstance?.depreciationType}" readonly="${show ?: false}"/>
         </div>
         %{--<div class="form-group ${hasErrors(bean: assetInstance, field: 'originalCost', 'has-error')} required">--}%
-            %{--<label for="originalCost">--}%
-                %{--<g:message code="asset.originalCost.label" default="Original Cost"/>--}%
-                %{--<span class="required-indicator">*</span>--}%
-            %{--</label>--}%
-            %{--<g:field type="number" class="form-control" name="originalCost" min="0" required=""--}%
-                     %{--value="${fieldValue(bean: assetInstance, field: 'originalCost')}"/>--}%
+        %{--<label for="originalCost">--}%
+        %{--<g:message code="asset.originalCost.label" default="Original Cost"/>--}%
+        %{--<span class="required-indicator">*</span>--}%
+        %{--</label>--}%
+        %{--<g:field type="number" class="form-control" name="originalCost" min="0" required=""--}%
+        %{--value="${fieldValue(bean: assetInstance, field: 'originalCost')}"/>--}%
         %{--</div>--}%
         %{--<div class="form-group ${hasErrors(bean: assetInstance, field: 'originalCostUnit', 'has-error')} required">--}%
-            %{--<label for="originalCostUnit">--}%
-                %{--<g:message code="asset.originalCostUnit.label" default="Original Cost Unit"/>--}%
-                %{--<span class="required-indicator">*</span>--}%
-            %{--</label>--}%
-            %{--<g:textField class="form-control" name="originalCostUnit" value="${assetInstance?.originalCostUnit}"/>--}%
+        %{--<label for="originalCostUnit">--}%
+        %{--<g:message code="asset.originalCostUnit.label" default="Original Cost Unit"/>--}%
+        %{--<span class="required-indicator">*</span>--}%
+        %{--</label>--}%
+        %{--<g:textField class="form-control" name="originalCostUnit" value="${assetInstance?.originalCostUnit}"/>--}%
         %{--</div>--}%
     </div>
 
@@ -132,28 +132,28 @@
                 <g:message code="asset.status.label" default="Status"/>
                 <span class="required-indicator">*</span>
             </label>
-            <g:textField class="form-control" name="status" value="${assetInstance?.status}"/>
+            <g:textField class="form-control" name="status" value="${assetInstance?.status}" readonly="${show ?: false}"/>
         </div>
         <div class="form-group ${hasErrors(bean: assetInstance, field: 'priority', 'has-error')} required">
             <label for="priority">
                 <g:message code="asset.priority.label" default="Priority"/>
                 <span class="required-indicator">*</span>
             </label>
-            <g:textField class="form-control" name="priority" value="${assetInstance?.priority}"/>
+            <g:textField class="form-control" name="priority" value="${assetInstance?.priority}" readonly="${show ?: false}"/>
         </div>
         <div class="form-group ${hasErrors(bean: assetInstance, field: 'locationCd', 'has-error')} required">
             <label for="locationCd">
                 <g:message code="asset.locationCd.label" default="Location Cd"/>
                 <span class="required-indicator">*</span>
             </label>
-            <g:textField class="form-control" name="locationCd" value="${assetInstance?.locationCd}"/>
+            <g:textField class="form-control" name="locationCd" value="${assetInstance?.locationCd}" readonly="${show ?: false}"/>
         </div>
         <div class="form-group ${hasErrors(bean: assetInstance, field: 'parentCd', 'has-error')} ">
             <label for="parentCd">
                 <g:message code="asset.parentCd.label" default="Parent Cd"/>
 
             </label>
-            <g:textField class="form-control" name="parentCd" value="${assetInstance?.parentCd}"/>
+            <g:textField class="form-control" name="parentCd" value="${assetInstance?.parentCd}" readonly="${show ?: false}"/>
         </div>
     </div>
 </div>
@@ -164,7 +164,7 @@
             <label for="note">
                 <g:message code="asset.note.label" default="Note"/>
             </label>
-            <g:textField class="form-control" name="note" value="${assetInstance?.note}"/>
+            <g:textField class="form-control" name="note" value="${assetInstance?.note}" readonly="${show ?: false}"/>
         </div>
 
         <div class="form-group ${hasErrors(bean: assetInstance, field: 'description', 'has-error')} ">
@@ -173,11 +173,10 @@
 
             </label>
             <g:textArea class="form-control" name="description" cols="40" rows="5" maxlength="1000"
-                        value="${assetInstance?.description}"/>
+                        value="${assetInstance?.description}" readonly="${show ?: false}"/>
         </div>
     </div>
 </div>
-
 
 
 
