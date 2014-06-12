@@ -172,7 +172,6 @@ class ${className}Controller {
 
         String msg = message(code: 'default.deleted.message', args: [message(code: '${className}.label', default: '${className}'), ${propertyName}.id])
         try {
-            println "delete ... params ${params}"
             ${propertyName}.delete flush:true
             if(params._partial) {
                 render(model: [${propertyName}: ${propertyName}], view: "_partialCreate")
