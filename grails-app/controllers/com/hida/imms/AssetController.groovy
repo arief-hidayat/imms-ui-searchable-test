@@ -1,6 +1,6 @@
 package com.hida.imms
 
-import grails.converters.JSON
+
 import org.springframework.http.HttpStatus
 
 import static org.springframework.http.HttpStatus.*
@@ -11,36 +11,22 @@ class AssetController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
-    def index(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        respond new Asset()
-    }
-
-    def show(Asset assetInstance) {
-        respond assetInstance
-    }
-
     def createForm() {
         println "inside create form"
         render(model: [assetInstance: new Asset(params)], view: "_partialCreate")
     }
+
     def editForm(Asset assetInstance) {
         render(model: [assetInstance: assetInstance], view: "_partialEdit")
     }
+
     def showForm(Asset assetInstance) {
         render(model: [assetInstance: assetInstance], view: "_partialShow") //
     }
 
-    def saveJSON() {
-        if(params.id) {
-
-        }
-    }
-
     def deleteJSON() {
         Asset assetInstance = Asset.get(params.id)
-        println "inside deleteJSON. assetInstance; ${assetInstance}"
-        if(assetInstance == null) {
+        if (assetInstance == null) {
             renderJsonMessage(message(code: 'default.not.found.message', args: [message(code: 'asset.label', default: 'Asset'), params.id]), params, NOT_FOUND)
             println "item not found"
             return
@@ -49,20 +35,37 @@ class AssetController {
             assetInstance.delete flush: true
             renderJsonMessage(message(code: 'default.deleted.message', args: [message(code: 'asset.label', default: 'Asset'), assetInstance.id]), params, OK)
             println "deleted successfully"
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Failed to delete Asset. params ${params}", e)
             renderJsonMessage(message(code: 'default.not.deleted.message', args: [message(code: 'asset.label', default: 'Asset'), assetInstance.id]), params, INTERNAL_SERVER_ERROR)
             println "item couldn't be deleted"
         }
     }
 
-    private def renderJsonMessage(String msg, def params, HttpStatus status) {
+    private def renderJsonMessage(String msg, def parameter, HttpStatus status) {
         render(status: status, contentType: "application/json;  charset=utf-8") {
-            [message : msg, params : params]
+            [message: msg, params: parameter]
         }
     }
 
+    def index(Integer max) {
+        params.max = Math.min(max ?: 10, 100)
+        respond new Asset()
+    }
+
+    def show(Asset assetInstance) {
+        if (params._partial) {
+            render(model: [assetInstance: assetInstance], view: "_partialShow")
+            return
+        }
+        respond assetInstance
+    }
+
     def create() {
+        if (params._partial) {
+            render(model: [assetInstance: new Asset(params)], view: "_partialCreate")
+            return
+        }
         respond new Asset(params)
     }
 
@@ -74,15 +77,37 @@ class AssetController {
         }
 
         if (assetInstance.hasErrors()) {
+            if (params._partial) {
+                render(model: [assetInstance: assetInstance], view: "_partialCreate")
+                return
+            }
             respond assetInstance.errors, view: 'create'
             return
         }
 
-        assetInstance.save flush: true
+
+
+        String msg = message(code: 'default.created.message', args: [message(code: 'asset.label', default: 'Asset'), assetInstance.id])
+        try {
+            assetInstance.save flush: true, failOnError: true
+            if (params._partial) {
+                render(model: [assetInstance: assetInstance], view: "_partialShow")
+                return
+            }
+        } catch (Exception e) {
+            if (params._partial) {
+                response.status = 500
+                if (!assetInstance.hasErrors()) {
+                    flash.message = e.getMessage()
+                }
+                render(model: [assetInstance: assetInstance], view: "_message")
+                return
+            }
+        }
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'asset.label', default: 'Asset'), assetInstance.id])
+                flash.message = msg
                 redirect assetInstance
             }
             '*' { respond assetInstance, [status: CREATED] }
@@ -90,6 +115,10 @@ class AssetController {
     }
 
     def edit(Asset assetInstance) {
+        if (params._partial) {
+            render(model: [assetInstance: assetInstance], view: "_partialEdit")
+            return
+        }
         respond assetInstance
     }
 
@@ -101,21 +130,39 @@ class AssetController {
         }
 
         if (assetInstance.hasErrors()) {
+            if (params._partial) {
+                render(model: [assetInstance: assetInstance], view: "_partialEdit")
+                return
+            }
             respond assetInstance.errors, view: 'edit'
             return
         }
-
-        assetInstance.save flush: true
+        String msg = message(code: 'default.updated.message', args: [message(code: 'Asset.label', default: 'Asset'), assetInstance.id])
+        try {
+            assetInstance.save flush: true, failOnError: true
+            if (params._partial) {
+                render(model: [assetInstance: assetInstance], view: "_partialShow")
+                return
+            }
+        } catch (Exception e) {
+            if (params._partial) {
+                response.status = 500
+                if (!assetInstance.hasErrors()) {
+                    flash.message = e.getMessage()
+                }
+                render(model: [assetInstance: assetInstance], view: "_message")
+                return
+            }
+        }
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'Asset.label', default: 'Asset'), assetInstance.id])
+                flash.message = msg
                 redirect assetInstance
             }
             '*' { respond assetInstance, [status: OK] }
         }
     }
-
 
     @Transactional
     def delete(Asset assetInstance) {
@@ -125,11 +172,22 @@ class AssetController {
             return
         }
 
-        assetInstance.delete flush: true
-
+        String msg = message(code: 'default.deleted.message', args: [message(code: 'Asset.label', default: 'Asset'), assetInstance.id])
+        try {
+            assetInstance.delete flush: true
+            if (params._partial) {
+                render(model: [assetInstance: assetInstance], view: "_partialCreate")
+                return
+            }
+        } catch (Exception e) {
+            if (params._partial) {
+                render(model: [assetInstance: assetInstance], view: "_message")
+                return
+            }
+        }
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'Asset.label', default: 'Asset'), assetInstance.id])
+                flash.message = msg
                 redirect action: "index", method: "GET"
             }
             '*' { render status: NO_CONTENT }
@@ -137,9 +195,14 @@ class AssetController {
     }
 
     protected void notFound() {
+        String msg = message(code: 'default.not.found.message', args: [message(code: 'asset.label', default: 'Asset'), params.id])
+        if (params._partial) {
+            render(status: NOT_FOUND, text: msg)
+            return
+        }
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'asset.label', default: 'Asset'), params.id])
+                flash.message = msg
                 redirect action: "index", method: "GET"
             }
             '*' { render status: NOT_FOUND }
