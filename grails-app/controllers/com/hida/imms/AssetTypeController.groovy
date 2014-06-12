@@ -1,5 +1,6 @@
 package com.hida.imms
 
+
 import org.springframework.http.HttpStatus
 
 import static org.springframework.http.HttpStatus.*
@@ -14,16 +15,18 @@ class AssetTypeController {
         println "inside create form"
         render(model: [assetTypeInstance: new AssetType(params)], view: "_partialCreate")
     }
+
     def editForm(AssetType assetTypeInstance) {
         render(model: [assetTypeInstance: assetTypeInstance], view: "_partialEdit")
     }
+
     def showForm(AssetType assetTypeInstance) {
         render(model: [assetTypeInstance: assetTypeInstance], view: "_partialShow") //
     }
 
     def deleteJSON() {
         AssetType assetTypeInstance = AssetType.get(params.id)
-        if(assetTypeInstance == null) {
+        if (assetTypeInstance == null) {
             renderJsonMessage(message(code: 'default.not.found.message', args: [message(code: 'assetType.label', default: 'AssetType'), params.id]), params, NOT_FOUND)
             println "item not found"
             return
@@ -32,7 +35,7 @@ class AssetTypeController {
             assetTypeInstance.delete flush: true
             renderJsonMessage(message(code: 'default.deleted.message', args: [message(code: 'assetType.label', default: 'AssetType'), assetTypeInstance.id]), params, OK)
             println "deleted successfully"
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Failed to delete AssetType. params ${params}", e)
             renderJsonMessage(message(code: 'default.not.deleted.message', args: [message(code: 'assetType.label', default: 'AssetType'), assetTypeInstance.id]), params, INTERNAL_SERVER_ERROR)
             println "item couldn't be deleted"
@@ -41,7 +44,7 @@ class AssetTypeController {
 
     private def renderJsonMessage(String msg, def parameter, HttpStatus status) {
         render(status: status, contentType: "application/json;  charset=utf-8") {
-            [message : msg, params : parameter]
+            [message: msg, params: parameter]
         }
     }
 
@@ -51,8 +54,7 @@ class AssetTypeController {
     }
 
     def show(AssetType assetTypeInstance) {
-        println "show ... params ${params}"
-        if(params._partial) {
+        if (params._partial) {
             render(model: [assetTypeInstance: assetTypeInstance], view: "_partialShow")
             return
         }
@@ -60,8 +62,7 @@ class AssetTypeController {
     }
 
     def create() {
-        println "create ... params ${params}"
-        if(params._partial) {
+        if (params._partial) {
             render(model: [assetTypeInstance: new AssetType(params)], view: "_partialCreate")
             return
         }
@@ -70,33 +71,35 @@ class AssetTypeController {
 
     @Transactional
     def save(AssetType assetTypeInstance) {
-        println "save ... params ${params}"
         if (assetTypeInstance == null) {
             notFound()
             return
         }
 
         if (assetTypeInstance.hasErrors()) {
-            if(params._partial) {
+            if (params._partial) {
                 render(model: [assetTypeInstance: assetTypeInstance], view: "_partialCreate")
                 return
             }
-            respond assetTypeInstance.errors, view:'create'
+            respond assetTypeInstance.errors, view: 'create'
             return
         }
 
+
+
         String msg = message(code: 'default.created.message', args: [message(code: 'assetType.label', default: 'AssetType'), assetTypeInstance.id])
         try {
-        println "before save ... params ${params}"
-            assetTypeInstance.save flush:true, failOnError: true
-        println "after save ... params ${params}"
-            if(params._partial) {
+            assetTypeInstance.save flush: true, failOnError: true
+            if (params._partial) {
                 render(model: [assetTypeInstance: assetTypeInstance], view: "_partialShow")
                 return
             }
-        } catch(Exception e) {
-            if(params._partial) {
+        } catch (Exception e) {
+            if (params._partial) {
                 response.status = 500
+                if (!assetTypeInstance.hasErrors()) {
+                    flash.message = e.getMessage()
+                }
                 render(model: [assetTypeInstance: assetTypeInstance], view: "_message")
                 return
             }
@@ -112,8 +115,7 @@ class AssetTypeController {
     }
 
     def edit(AssetType assetTypeInstance) {
-        println "edit ... params ${params}"
-        if(params._partial) {
+        if (params._partial) {
             render(model: [assetTypeInstance: assetTypeInstance], view: "_partialEdit")
             return
         }
@@ -128,24 +130,26 @@ class AssetTypeController {
         }
 
         if (assetTypeInstance.hasErrors()) {
-            if(params._partial) {
+            if (params._partial) {
                 render(model: [assetTypeInstance: assetTypeInstance], view: "_partialEdit")
                 return
             }
-            respond assetTypeInstance.errors, view:'edit'
+            respond assetTypeInstance.errors, view: 'edit'
             return
         }
-
         String msg = message(code: 'default.updated.message', args: [message(code: 'AssetType.label', default: 'AssetType'), assetTypeInstance.id])
         try {
-            println "update ... params ${params}"
-            assetTypeInstance.save flush:true, failOnError: true
-            if(params._partial) {
+            assetTypeInstance.save flush: true, failOnError: true
+            if (params._partial) {
                 render(model: [assetTypeInstance: assetTypeInstance], view: "_partialShow")
                 return
             }
-        } catch(Exception e) {
-            if(params._partial) {
+        } catch (Exception e) {
+            if (params._partial) {
+                response.status = 500
+                if (!assetTypeInstance.hasErrors()) {
+                    flash.message = e.getMessage()
+                }
                 render(model: [assetTypeInstance: assetTypeInstance], view: "_message")
                 return
             }
@@ -156,26 +160,27 @@ class AssetTypeController {
                 flash.message = msg
                 redirect assetTypeInstance
             }
-            '*'{ respond assetTypeInstance, [status: OK] }
+            '*' { respond assetTypeInstance, [status: OK] }
         }
     }
 
     @Transactional
     def delete(AssetType assetTypeInstance) {
+
         if (assetTypeInstance == null) {
             notFound()
             return
         }
+
         String msg = message(code: 'default.deleted.message', args: [message(code: 'AssetType.label', default: 'AssetType'), assetTypeInstance.id])
         try {
-            println "delete ... params ${params}"
-            assetTypeInstance.delete flush:true
-            if(params._partial) {
+            assetTypeInstance.delete flush: true
+            if (params._partial) {
                 render(model: [assetTypeInstance: assetTypeInstance], view: "_partialCreate")
                 return
             }
-        } catch(Exception e) {
-            if(params._partial) {
+        } catch (Exception e) {
+            if (params._partial) {
                 render(model: [assetTypeInstance: assetTypeInstance], view: "_message")
                 return
             }
@@ -183,15 +188,15 @@ class AssetTypeController {
         request.withFormat {
             form multipartForm {
                 flash.message = msg
-                redirect action:"index", method:"GET"
+                redirect action: "index", method: "GET"
             }
-            '*'{ render status: NO_CONTENT }
+            '*' { render status: NO_CONTENT }
         }
     }
 
     protected void notFound() {
         String msg = message(code: 'default.not.found.message', args: [message(code: 'assetType.label', default: 'AssetType'), params.id])
-        if(params._partial) {
+        if (params._partial) {
             render(status: NOT_FOUND, text: msg)
             return
         }
@@ -200,7 +205,7 @@ class AssetTypeController {
                 flash.message = msg
                 redirect action: "index", method: "GET"
             }
-            '*'{ render status: NOT_FOUND }
+            '*' { render status: NOT_FOUND }
         }
     }
 }

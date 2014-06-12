@@ -8,7 +8,6 @@
 </head>
 
 <body>
-
 <g:render template="partialSinglePage"/>
 <script type="text/javascript" charset="utf-8">
     App.url = "${request.contextPath}";

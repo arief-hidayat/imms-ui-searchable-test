@@ -8,7 +8,7 @@
             <g:render template="form"/>
         </fieldset>
         <fieldset class="buttons">
-            <g:submitButton data-action="save"  name="create" class="btn btn-success"
+            <g:submitButton data-action="save" name="create" class="btn btn-success"
                             value="${message(code: 'default.button.create.label', default: 'Create')}"/>
         </fieldset>
     </g:form>
