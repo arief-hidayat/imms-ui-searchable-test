@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row message-container">
     <g:render template="message"/>
 </div>
 

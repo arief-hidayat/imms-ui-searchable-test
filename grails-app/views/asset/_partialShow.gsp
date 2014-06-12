@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row message-container">
     <g:if test="${flash.message}">
         <div class="message" role="status">${flash.message}</div>
     </g:if>

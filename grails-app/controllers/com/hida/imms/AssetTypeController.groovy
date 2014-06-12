@@ -51,30 +51,60 @@ class AssetTypeController {
     }
 
     def show(AssetType assetTypeInstance) {
+        println "show ... params ${params}"
+        if(params._partial) {
+            render(model: [assetTypeInstance: assetTypeInstance], view: "_partialShow")
+            return
+        }
         respond assetTypeInstance
     }
 
     def create() {
+        println "create ... params ${params}"
+        if(params._partial) {
+            render(model: [assetTypeInstance: new AssetType(params)], view: "_partialCreate")
+            return
+        }
         respond new AssetType(params)
     }
 
     @Transactional
     def save(AssetType assetTypeInstance) {
+        println "save ... params ${params}"
         if (assetTypeInstance == null) {
             notFound()
             return
         }
 
         if (assetTypeInstance.hasErrors()) {
+            if(params._partial) {
+                render(model: [assetTypeInstance: assetTypeInstance], view: "_partialCreate")
+                return
+            }
             respond assetTypeInstance.errors, view:'create'
             return
         }
 
-        assetTypeInstance.save flush:true
+        String msg = message(code: 'default.created.message', args: [message(code: 'assetType.label', default: 'AssetType'), assetTypeInstance.id])
+        try {
+        println "before save ... params ${params}"
+            assetTypeInstance.save flush:true, failOnError: true
+        println "after save ... params ${params}"
+            if(params._partial) {
+                render(model: [assetTypeInstance: assetTypeInstance], view: "_partialShow")
+                return
+            }
+        } catch(Exception e) {
+            if(params._partial) {
+                response.status = 500
+                render(model: [assetTypeInstance: assetTypeInstance], view: "_message")
+                return
+            }
+        }
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'assetType.label', default: 'AssetType'), assetTypeInstance.id])
+                flash.message = msg
                 redirect assetTypeInstance
             }
             '*' { respond assetTypeInstance, [status: CREATED] }
@@ -82,6 +112,11 @@ class AssetTypeController {
     }
 
     def edit(AssetType assetTypeInstance) {
+        println "edit ... params ${params}"
+        if(params._partial) {
+            render(model: [assetTypeInstance: assetTypeInstance], view: "_partialEdit")
+            return
+        }
         respond assetTypeInstance
     }
 
@@ -93,15 +128,32 @@ class AssetTypeController {
         }
 
         if (assetTypeInstance.hasErrors()) {
+            if(params._partial) {
+                render(model: [assetTypeInstance: assetTypeInstance], view: "_partialEdit")
+                return
+            }
             respond assetTypeInstance.errors, view:'edit'
             return
         }
 
-        assetTypeInstance.save flush:true
+        String msg = message(code: 'default.updated.message', args: [message(code: 'AssetType.label', default: 'AssetType'), assetTypeInstance.id])
+        try {
+            println "update ... params ${params}"
+            assetTypeInstance.save flush:true, failOnError: true
+            if(params._partial) {
+                render(model: [assetTypeInstance: assetTypeInstance], view: "_partialShow")
+                return
+            }
+        } catch(Exception e) {
+            if(params._partial) {
+                render(model: [assetTypeInstance: assetTypeInstance], view: "_message")
+                return
+            }
+        }
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'AssetType.label', default: 'AssetType'), assetTypeInstance.id])
+                flash.message = msg
                 redirect assetTypeInstance
             }
             '*'{ respond assetTypeInstance, [status: OK] }
@@ -110,17 +162,27 @@ class AssetTypeController {
 
     @Transactional
     def delete(AssetType assetTypeInstance) {
-
         if (assetTypeInstance == null) {
             notFound()
             return
         }
-
-        assetTypeInstance.delete flush:true
-
+        String msg = message(code: 'default.deleted.message', args: [message(code: 'AssetType.label', default: 'AssetType'), assetTypeInstance.id])
+        try {
+            println "delete ... params ${params}"
+            assetTypeInstance.delete flush:true
+            if(params._partial) {
+                render(model: [assetTypeInstance: assetTypeInstance], view: "_partialCreate")
+                return
+            }
+        } catch(Exception e) {
+            if(params._partial) {
+                render(model: [assetTypeInstance: assetTypeInstance], view: "_message")
+                return
+            }
+        }
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'AssetType.label', default: 'AssetType'), assetTypeInstance.id])
+                flash.message = msg
                 redirect action:"index", method:"GET"
             }
             '*'{ render status: NO_CONTENT }
@@ -128,9 +190,14 @@ class AssetTypeController {
     }
 
     protected void notFound() {
+        String msg = message(code: 'default.not.found.message', args: [message(code: 'assetType.label', default: 'AssetType'), params.id])
+        if(params._partial) {
+            render(status: NOT_FOUND, text: msg)
+            return
+        }
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'assetType.label', default: 'AssetType'), params.id])
+                flash.message = msg
                 redirect action: "index", method: "GET"
             }
             '*'{ render status: NOT_FOUND }
