@@ -78,6 +78,7 @@ class AssetController {
 
         if (assetInstance.hasErrors()) {
             if (params._partial) {
+                response.status = 412
                 render(model: [assetInstance: assetInstance], view: "_partialCreate")
                 return
             }
@@ -131,6 +132,7 @@ class AssetController {
 
         if (assetInstance.hasErrors()) {
             if (params._partial) {
+                response.status = 412
                 render(model: [assetInstance: assetInstance], view: "_partialEdit")
                 return
             }
@@ -146,7 +148,7 @@ class AssetController {
             }
         } catch (Exception e) {
             if (params._partial) {
-                response.status = 500
+                response.status = INTERNAL_SERVER_ERROR
                 if (!assetInstance.hasErrors()) {
                     flash.message = e.getMessage()
                 }
@@ -181,6 +183,10 @@ class AssetController {
             }
         } catch (Exception e) {
             if (params._partial) {
+                response.status = 500
+                if (!assetInstance.hasErrors()) {
+                    flash.message = e.getMessage()
+                }
                 render(model: [assetInstance: assetInstance], view: "_message")
                 return
             }
